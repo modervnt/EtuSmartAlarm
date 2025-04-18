@@ -1,0 +1,9 @@
+MonAppReact/
+├── assets/                # Contient des images ou fichiers statiques
+├── node_modules/          # Toutes les dépendances installées
+├── App.js ou App.tsx      # Point d'entrée principal de l'application
+├── package.json           # Liste des dépendances et scripts
+├── babel.config.js        # Configuration de Babel pour transformer le code
+├── tsconfig.json          # Configuration TypeScript (si utilisé)
+└── ...
+
