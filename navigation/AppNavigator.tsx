@@ -3,8 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import BottomTabNavigator from "./BottomTabNavigator";
 import DetailsScreen from "../screens/SettingScreen";
+import AlarmConfig from "../screens/AlarmConfig";
+import { RootStackParamList } from "../types";
+import AlarmScreen from "../screens/AlarmScreen";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
     return (
@@ -17,7 +20,8 @@ const AppNavigator = () => {
                     options={{ headerShown: false }}
                 />
                 {/* Écran secondaire */}
-                <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Details'}}/>
+                <Stack.Screen name="AlarmConfig" component={AlarmConfig} options={{ headerShown: false }} />
+                <Stack.Screen name="Home" component={AlarmScreen} options={{ headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
