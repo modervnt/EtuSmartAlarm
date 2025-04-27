@@ -1,12 +1,64 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Alert, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types';
+import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DetailsScreen = () => {
+type SettingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Setting'>
+
+interface User {
+  id: number;
+  username: string;
+  group: number;
+}
+
+const DetailsScreen =  () => {
+  const navigation = useNavigation<SettingScreenNavigationProp>();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+if (userData) {
+  const user = JSON.parse(userData);
+  console.log(user);
+}
+
+        if (userData) {
+          setUser(JSON.parse(userData));
+        }
+      } catch (error) {
+        console.log("Error fetching user data:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('user');
+
+      //await SecureStore.deleteItemAsync('user');
+
+navigation.reset({
+  index: 0,
+  routes: [{ name: 'Auth' }],
+});
+
+    } catch (error) {
+      console.log("Logout error:", error);
+      Alert.alert("Error", "Failed to logout");
+    }
+  };
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
@@ -17,8 +69,8 @@ const DetailsScreen = () => {
           <View style={styles.avatarContainer}>
             <AntDesign name="user" size={40} color="#4C7DA5" />
           </View>
-          <Text style={styles.profileName}>John Doe</Text>
-          <Text style={styles.profileEmail}>john.doe@example.com</Text>
+          <Text style={styles.profileName}>{user?.username || "Guest"}</Text>
+          <Text style={styles.profileEmail}>Group: {user?.group || "Unknown"}</Text>
         </View>
 
         {/* Settings Options */}
@@ -83,9 +135,13 @@ const DetailsScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity 
+          style={styles.logoutButton} 
+          onPress={handleLogout}
+        >
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
+
       </View>
     </ScrollView>
   );

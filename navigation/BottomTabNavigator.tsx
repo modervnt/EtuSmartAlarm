@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import SettingScreen from "../screens/SettingScreen";
+import DetailsScreen from "../screens/SettingScreen";
 import AlarmScreen from "../screens/AlarmScreen";
 import AwakeningStatisticsScreen from "../screens/AwakeningStatisticsScreen";
 import QuizSummaryScreen from "../screens/QuizSummaryScreen";
@@ -49,7 +49,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen name="Alarm" component={AlarmStack} options={{ title: "Alarms", headerShown: false }} />
       <Tab.Screen name= "Awakening statistics" component={AwakeningStatisticsScreen} options={{ title: "Awakening Stats", headerShown: false}}/>
       <Tab.Screen name="Quiz summary" component={QuizSummaryScreen} options={{title: "Quiz summary", headerShown: false}}/>
-      <Tab.Screen name="Settings" component={SettingScreen} options={{ title: "Settings", headerShown: false }} />
+      <Tab.Screen name="Settings" component={DetailsScreen} options={{ title: "Settings", headerShown: false }} />
     </Tab.Navigator>
   );
 };

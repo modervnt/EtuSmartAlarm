@@ -4,6 +4,7 @@ export interface Alarm {
     isActive: boolean;
     testSubject: string;
     workingDay : number[];
+    smartWakeUp: boolean;
 } 
 
 
